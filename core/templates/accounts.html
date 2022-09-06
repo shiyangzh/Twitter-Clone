@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>192 Twitter - Create an Account</title>
+    <style type="text/css">…</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style type="text/css"></style>
+</head>
+<body>
+
+
+<section class="section">
+
+<div class="container">
+{% if request.GET.error %}
+    <p>Incorrect username or password. Please try again.</p>
+{% endif %}
+
+<h1 class="title">Register</h1>
+<form method="POST" action="/signup">
+    {% csrf_token %}
+    <input class="input is-primary" name="username" placeholder="username">
+    <input class="input is-primary" name="email" placeholder="email">
+    <input class="input is-primary" name="password" placeholder="password">
+    <button class="button is-light" input type="submit">Create Account</button>
+
+
+</form>
+
+    </div>
+</section>
+
+<section class="section">
+
+<div class="container">
+<h1 class="title">Log In</h1>
+<form method="POST" action="/login">
+    {% csrf_token %}
+    <input class="input is-primary" name="username" placeholder="username">
+    <input class="input is-primary" name="password" placeholder="password">
+    <button class="button is-light" input type="submit">Enter</button>
+</form>
+</div>
+</section>
+
+</body>
+</html>

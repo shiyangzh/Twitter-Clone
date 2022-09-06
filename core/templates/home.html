@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>192 Twitter</title>
+    <style type="text/css">…</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style type="text/css"></style>
+</head>
+
+<body>
+
+{% if user.is_authenticated %}
+<button class="button is-light" input type="submit"><a href="/logout">Log Out</a></button>
+
+<form method="POST" action="/home">
+    {% csrf_token %}
+    <h1 class="title">Home</h1>
+    <input class="input is-primary" name="body" placeholder="What's happening?" />
+    <button class="button is-light" input type="submit">Tweet</button>
+</form>
+<br>
+
+
+<div class="columns">
+    <div class="column is-half">
+    <h1 class="title"> Tweets: </h1>
+        {% for tweet in tweets %}
+        <div class="card" style="border-radius: 5px; margin-bottom: 0.5rem">
+            <div class="card-content">
+                <p class="has-text-grey-light is-size-7">
+                    <p><a href="/profile?id={{tweet.author.id}}">{{tweet.author.username}}</a> | {{tweet.created_at}}
+                    </p>
+                </p>
+                <p style="margin-top: 0.2rem; margin-bottom: 0.2rem" class="content"> {{tweet.body}} </p>
+                {% if user.id == tweet.author.id %}
+                    <a href='/delete?id={{tweet.id}}' class="btn">Delete</a>
+                {% endif %}
+                <a class="is-size-7" href='/like?id={{tweet.id}}' class="btn"> Like ({{ tweet.likes.all.count }})</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="column is-half">
+    <h1 class="title"> Hashtags: </h1>
+        {% for tag in hashtag %}
+            <div class="card" style="border-radius: 5px; margin-bottom: 0.5rem">
+                <div class="card-content">
+                    <a href="/hashtag?id={{tag.name}}"><p> #{{tag.name}} ({{tag.count}})</p></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+
+
+
+
+
+{% else %}
+<a href="/login">Log In</a>
+{% endif %}
+
+</body>
+</html>

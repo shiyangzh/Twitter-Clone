@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>#{{ hashtag.name }}</title>
+    <style type="text/css">…</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style type="text/css"></style>
+</head>
+<body>
+
+<button class="button is-light" input type="submit"><a href="/logout">Log Out</a></button>
+
+<button class="button is-light" input type="submit"><a href="/home">Home</a></button>
+<h1 class="title"> #{{hashtag.name}}</h1>
+
+<div class="columns">
+
+    <div class="column is-half">
+        {% for tweet in hashtag.post.all %}
+        <div class="card" style="border-radius: 5px; margin-bottom: 0.5rem">
+            <div class="card-content">
+                <p class="has-text-grey-light is-size-7">
+                    <p><a href="/profile?id={{tweet.author.id}}">{{tweet.author.username}}</a> | {{tweet.created_at}}
+                    </p>
+                </p>
+                <p style="margin-top: 0.2rem; margin-bottom: 0.2rem" class="content"> {{tweet.body}} </p>
+                {% if user.id == tweet.author.id %}
+                    <a href='/delete?id={{tweet.id}}' class="btn">Delete</a>
+                {% endif %}
+                <a class="is-size-7" href='/like?id={{tweet.id}}' class="btn"> Like ({{ tweet.likes.all.count }})</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+</body>
+</html>
